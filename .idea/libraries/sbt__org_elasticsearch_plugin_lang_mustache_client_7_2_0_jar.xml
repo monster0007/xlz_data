@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="sbt: org.elasticsearch.plugin:lang-mustache-client:7.2.0:jar">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../plugins/sbt/.ivy2/cache/org.elasticsearch.plugin/lang-mustache-client/jars/lang-mustache-client-7.2.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../../plugins/sbt/.ivy2/cache/org.elasticsearch.plugin/lang-mustache-client/srcs/lang-mustache-client-7.2.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
