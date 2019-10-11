@@ -50,6 +50,8 @@ class saleDtl {
         |a.cfr_date, -- 完成日期
         |d.customertype, -- CUSTOMERTYPE
         |b.goodstype,-- 商品类型
+        |a.channel_name, -- 销售渠道名称
+        |b.bigunit, -- 件装量
         |b.vendorname, -- 生产厂商
         |b.approvedno, -- 批准文号
         |c.ym
@@ -99,6 +101,8 @@ class saleDtl {
             mapf.put("cfr_date", x.get(x.fieldIndex("cfr_date")).toString())//完成日期
             mapf.put("customertype", x.get(x.fieldIndex("customertype")))//客户类型
             mapf.put("goodstype", x.get(x.fieldIndex("goodstype")))//商品类型
+            mapf.put("channel_name", x.get(x.fieldIndex("channel_name")))//销售渠道名称
+            mapf.put("bigunit", x.get(x.fieldIndex("bigunit")))//件装量
             mapf.put("vendorname", x.get(x.fieldIndex("vendorname")))//生产厂商
             mapf.put("approvedno", x.get(x.fieldIndex("approvedno")))//批准文号
             mapf.put("ym", x.get(x.fieldIndex("ym")))//时间
