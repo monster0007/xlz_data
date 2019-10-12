@@ -53,6 +53,7 @@ class saleDtl {
         |a.channel_name, -- 销售渠道名称
         |b.bigunit, -- 件装量
         |b.vendorname, -- 生产厂商
+        |a.suppliername, -- 供应商名称
         |b.approvedno, -- 批准文号
         |c.ym
         |FROM ods_sale_fact a
@@ -104,6 +105,7 @@ class saleDtl {
             mapf.put("channel_name", x.get(x.fieldIndex("channel_name")))//销售渠道名称
             mapf.put("bigunit", x.get(x.fieldIndex("bigunit")))//件装量
             mapf.put("vendorname", x.get(x.fieldIndex("vendorname")))//生产厂商
+            mapf.put("suppliername", x.get(x.fieldIndex("suppliername")))//供应商名称
             mapf.put("approvedno", x.get(x.fieldIndex("approvedno")))//批准文号
             mapf.put("ym", x.get(x.fieldIndex("ym")))//时间
             val id = mapf.get("saledtlid").toString()
