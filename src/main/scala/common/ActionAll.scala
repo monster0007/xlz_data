@@ -1,7 +1,7 @@
 package common
 
 import org.apache.log4j.Logger
-import xlz.saleDtl
+import xlz2re.saleDtl
 
 /**
   * @Author: Shi Yu

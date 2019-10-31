@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="xlz_data:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/xlz_data_jar</output-path>
+    <root id="archive" name="xlz_data.jar">
+      <element id="module-output" name="xlz_data" />
+    </root>
+  </artifact>
+</component>

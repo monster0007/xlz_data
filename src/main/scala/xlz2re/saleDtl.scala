@@ -1,4 +1,4 @@
-package xlz
+package xlz2re
 
 import java.util
 import java.util.concurrent.TimeUnit
@@ -39,14 +39,14 @@ class saleDtl {
         |SELECT
         |d.customername, -- 客户名称
         |a.saledtlid, -- 订单编号
-        |b.goodsname, -- 产品名称
+        |trim(b.goodsname) AS goodsname, -- 产品名称
         |b.goodsspetype, -- 规格
         |a.lots, -- 批号
         |a.batch, -- 批次
         |a.goodsqty AS saleqty, -- 销售数量
         |b.goodsunit, --  单位
-        |a.money/10000 AS salemoney, -- 销售金额
-        |'万元'  AS moneyunity, -- 销售金额
+        |CAST(a.money AS DECIMAL(18,2)) AS salemoney, -- 销售金额
+        |'元'  AS moneyunity, -- 销售金额
         |a.cfr_date, -- 完成日期
         |d.customertype, -- CUSTOMERTYPE
         |b.goodstype,-- 商品类型
@@ -60,8 +60,6 @@ class saleDtl {
         |LEFT JOIN d_goods b on a.goodsid=b.goodsid
         |LEFT JOIN d_time c on a.cfr_date=c.YMD
         |LEFT JOIN d_customer d on a.customerid=d.customerid
-        |WHERE  a.saletype = '销售出库'
-        |OR a.saletype = '销退验入'
       """.stripMargin
      val df = spark.sql(sql)
     df
@@ -77,12 +75,13 @@ class saleDtl {
     val start = System.currentTimeMillis()
 
     val df = readHiveGetDF()
+
     val resArry = df.foreachPartition(par => {
       if(!par.isEmpty){
         val mapf = new util.HashMap[String, Any]()
         var i = 0
         val blukRequest = new BulkRequest()
-        blukRequest.timeout("10m")
+        blukRequest.timeout("3m")
         val listener = ESUtils.getBulkListener
         val client = new RestHighLevelClient(RestClient.builder(new HttpHost(GlobalLight.HOST, GlobalLight.PORT, GlobalLight.HTTP)))
         //获取皮操作处理
@@ -97,8 +96,8 @@ class saleDtl {
             mapf.put("batch", x.get(x.fieldIndex("batch")))//批次
             mapf.put("saleqty", x.get(x.fieldIndex("saleqty")))//销售数量
             mapf.put("goodsunit",   x.get(x.fieldIndex("goodsunit")))//单位
-            mapf.put("salemoney", x.get(x.fieldIndex("salemoney")))//销售金额(万元)
-            mapf.put("moneyunity", x.get(x.fieldIndex("moneyunity")))//销售金额单位(万元)
+            mapf.put("salemoney", x.get(x.fieldIndex("salemoney")).toString())//销售金额(元)
+            mapf.put("moneyunity", x.get(x.fieldIndex("moneyunity")))//销售金额单位(元)
             mapf.put("cfr_date", x.get(x.fieldIndex("cfr_date")).toString())//完成日期
             mapf.put("customertype", x.get(x.fieldIndex("customertype")))//客户类型
             mapf.put("goodstype", x.get(x.fieldIndex("goodstype")))//商品类型
@@ -150,5 +149,6 @@ class saleDtl {
 object saleDtl{
   def main(args: Array[String]): Unit = {
     new saleDtl().write2es()
+    //val df = new saleDtl().readHiveGetDF()
   }
 }
